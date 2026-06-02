@@ -132,8 +132,8 @@ const loginUser = asyncHandler(async (req, res) => {
 
 const logoutUser = asyncHandler(async (req, res) => {
     await User.findByIdAndUpdate(req.user._id, {
-        $set: {
-            refreshToken: undefined
+        $unset: {
+            refreshToken: 1
         }
     }, {
         new: true
@@ -148,7 +148,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 
 
 
-const refershAccessToken = asyncHandler(async (req, res) => {
+const refreshAccessToken = asyncHandler(async (req, res) => {
     const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
 
     if (!incomingRefreshToken) {
@@ -331,7 +331,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
 
 
 
-const getWatchHistory = asynchandler(async(req,res)=>{
+const getWatchHistory = asyncHandler(async(req,res)=>{
     const user = await User.aggregate([
         {
             $match: {
@@ -375,4 +375,4 @@ const getWatchHistory = asynchandler(async(req,res)=>{
 
 
 
-export { registerUser, loginUser, logoutUser, refershAccessToken, changeCurrentPassword, getCurrentUser, updateAccountDetails, updateUserAvatar, updateUserCoverImage, getUserChannelProfile }
+export { registerUser, loginUser, logoutUser, refreshAccessToken, changeCurrentPassword, getCurrentUser, updateAccountDetails, updateUserAvatar, updateUserCoverImage, getUserChannelProfile,getWatchHistory }
